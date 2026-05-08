@@ -1,0 +1,63 @@
+======================================================================
+  GIGGUARD DISRUPTION PIPELINE — MODEL EVALUATION REPORT (v4)
+  Parametric Insurance for Gig Workers
+======================================================================
+  Target    : loss_ratio (reality-grounded, IMD thresholds)
+  Model     : XGBRegressor (n=300, lr=0.05, depth=5)
+  Train     : 2015–2022  |  Test: 2023–2025
+  CV        : Walk-forward, 5 folds (expanding window)
+  Pipeline  : Pure ML (hybrid removed — risk_score was 97.5% importance)
+
+----------------------------------------------------------------------
+  VERSION   : PURE
+  Features  : 24
+  Train R²  : 0.9961
+  Test  R²  : 0.9654
+  Overfit   : 0.0306  (✅ excellent)
+  MAE       : ₹0.87 per day
+
+  Top 10 Feature Importances:
+    rain_squared                           0.4237  ██████████████████████████████████████████
+    precipitation_sum                      0.3531  ███████████████████████████████████
+    is_coastal                             0.0346  ███
+    distance_to_coast                      0.0333  ███
+    tail_event                             0.0271  ██
+    elevation                              0.0270  ██
+    temp_squared                           0.0235  ██
+    rain_wind_interaction                  0.0225  ██
+    wind_gusts_10m_max                     0.0139  █
+    temperature_2m_max                     0.0117  █
+
+  📐 Calibration Error: ₹0.73/day
+    Bin                   Count  Predicted     Actual    Error
+    ₹0–0                    461 ₹    0.01 ₹    0.00 ₹  0.01
+    ₹0–0                   1702 ₹    0.02 ₹    0.00 ₹  0.02
+    ₹0–0                    520 ₹    0.05 ₹    0.00 ₹  0.05
+    ₹0–1                    435 ₹    0.32 ₹    0.00 ₹  0.32
+    ₹1–74                   391 ₹   35.80 ₹   38.05 ₹  2.25
+    ₹74–603                 390 ₹  160.20 ₹  161.94 ₹  1.74
+
+  🌊 Tail Risk (P95+):
+    Tail R²  : 11.9978
+    Tail MAE : ₹0.92
+
+  Walk-forward CV Folds:
+    Fold   Test Year          R²        MAE        Gap
+    1      2019           0.9226 ₹    1.03     0.0739
+    2      2020           0.9730 ₹    0.79     0.0227
+    3      2021           0.9793 ₹    0.53     0.0170
+    4      2022           0.9545 ₹    1.01     0.0417
+    5      2023           0.9912 ₹    0.45     0.0049
+    AVG                   0.9641 ₹    0.76
+
+======================================================================
+  ✅ MODEL : PURE
+     Test R² = 0.9654  |  MAE = ₹0.87/day  |  Cal Error = ₹0.73
+
+  Interpretation:
+    R² > 0.85         → excellent for reality-grounded target
+    R² 0.70–0.85      → good (acceptable for pricing)
+    R² < 0.70         → review features or add data
+    Overfit gap < 0.05 → excellent generalization
+    Cal Error < ₹50   → insurance-grade calibration
+======================================================================

@@ -1,0 +1,12 @@
+pandas
+xgboost
+scikit-learn
+imbalanced-learn
+requests
+joblib
+shap
+matplotlib
+openmeteo-requests
+requests-cache
+retry-requests
+numpy
